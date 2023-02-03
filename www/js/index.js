@@ -15,3 +15,5 @@ function onDeviceReady() {
     console.log('Running cordova-' + cordova.platformId + '@' + cordova.version);
 
 }
+
+$('.tabs').tabs({"swipeable":true});

@@ -12,3 +12,15 @@
 .icon-block .material-icons {
 	font-size: inherit;
 }
+html, body {
+  height: 100vh;
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  flex-flow: column;
+}
+ 
+.tabs-content {
+  height: 100%;
+  overflow-y: scroll !important;
+}
