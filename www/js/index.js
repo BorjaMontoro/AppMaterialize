@@ -21,15 +21,30 @@ function onDeviceReady() {
 }
 
 function hacerFoto(){
-  console.log("hola");
-  let cameraOptions={};
-  navigator.camera.getPicture(cameraSuccess, cameraError, cameraOptions);
+  let cameraOptions={
+    destinationType: Camera.DestinationType.FILE_URI,
+    encodingType : Camera.EncodingType.JPEG,
+    correctOrientation: true,
+    sourceType: Camera.PictureSourceType.CAMERA
+  };
+  navigator.camera.getPicture(function(imageURI) {
+  resolveLocalFileSystemURL(imageURI, function(fileEntry) {
+    fileEntry.file(function(file) { 
+      var reader = new FileReader();
+      reader.onloadend = function() {
+        let image = document.getElementById('imagen');
+        image.src = this.result;
+      }
+      reader.readAsDataURL(file);
+    }, cameraError);
+  }, cameraError);
+}, cameraError, cameraOptions);
   return false;
 }
 
-function cameraSuccess(imageData) {
-  let image = document.getElementById('imagen');
-  image.src = "data:image/jpeg;base64,"+imageData;
+function cameraSuccess(imageURI) {
+  //let image = document.getElementById('imagen');
+  //image.src = "data:image/jpeg;base64,"+imageData;
 }
 
 function cameraError(message) {
