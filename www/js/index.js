@@ -22,14 +22,30 @@ function onDeviceReady() {
 function cargarArticulos(){
   $.ajax({
     method: "GET",
-    url: "https://api.spaceflightnewsapi.net/v3/articles?_limit=3",
+    url: "https://api.spaceflightnewsapi.net/v3/articles?_limit=8",
     dataType: "json",   // necessitem això pq ens retorni un objecte JSON
   }).done(function (msg) {
     $('#listaArticulos').empty();
     $('#listaArticulos').append('<li class="collection-header"><h4>Articulos</h4></li>');
     for(let item in msg) {
       var title = msg[item].title;
+      var imagen = msg[item].imageUrl;
+      var noticia = msg[item].summary;
+      var fecha = msg[item].publishedAt;
       let articulo=$('<li id='+msg[item].id+' class="collection-item"><div>'+title+'<a href="#!" class="secondary-content informacion"><i class="material-icons">send</i></a></div></li>');
+      let articuloCard=$(`<div class="col s12 m6 l3"">
+                            <div class="card">
+                              <div class="card-title">
+                                <h4>${title}</h4>
+                              </div>
+                              <div class="card-image">
+                                <img src="${imagen}">
+                              </div>
+                              <div class="card-content">
+                                <p>${noticia}</p>
+                                <p>${fecha}</p>
+                              </div>
+                          </div>`);
       $(".informacion",articulo).click((e) => {
         let id=($(e.target).parent().parent().parent().attr("id"));
         $('#test-swipe-2').empty();
@@ -41,6 +57,7 @@ function cargarArticulos(){
           var title = msg.title;
           var imagen = msg.imageUrl;
           var noticia = msg.summary;
+          var fecha = msg.publishedAt;
           let detallesArticulo=$(`<div class="row">
                           <div class="col m3"></div>
                           <div class="col s12 m6">
@@ -53,6 +70,7 @@ function cargarArticulos(){
                               </div>
                               <div class="card-content">
                                 <p>${noticia}</p>
+                                <p>${fecha}</p>
                               </div>
                           </div>
                           <div class="col m3"></div>
@@ -65,6 +83,7 @@ function cargarArticulos(){
         $('#tabs-swipe-demo').tabs("select", "test-swipe-2");
     });
       $('#listaArticulos').append(articulo);
+      $('#todasNoticias').append(articuloCard);
     }
   }).fail(function () {
     alert("ERROR");
