@@ -16,8 +16,25 @@ function onDeviceReady() {
 
     console.log('Running cordova-' + cordova.platformId + '@' + cordova.version);
 
+    $('#botonCamera').click(hacerFoto);
+
 }
 
+function hacerFoto(){
+  console.log("hola");
+  let cameraOptions={};
+  navigator.camera.getPicture(cameraSuccess, cameraError, cameraOptions);
+  return false;
+}
+
+function cameraSuccess(imageData) {
+  let image = document.getElementById('imagen');
+  image.src = "data:image/jpeg;base64,"+imageData;
+}
+
+function cameraError(message) {
+    alert(message);
+}
 
 function cargarArticulos(){
   $.ajax({
